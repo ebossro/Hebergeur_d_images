@@ -4,12 +4,19 @@ if(isset($_FILES['image']) && $_FILES['image']['error'] == 0) {
     $error = 1;
 
     if($_FILES['image']['size'] <= 3000000) {
+
         $_informationsImage = pathinfo($_FILES['image']['name']);
+
         $_extensionImage = $_informationsImage['extension'];
+
         $extensionArray = array('jpg', 'jpeg', 'png', 'gif');
+
         if(in_array($_extensionImage, $extensionArray)) {
+
             $address = 'uploads/'.time().rand().rand().'.'.$_extensionImage;
+
             move_uploaded_file($_FILES['image']['tmp_name'], $address);
+
             $error = 0;
         }
     }
@@ -59,11 +66,9 @@ if(isset($_FILES['image']) && $_FILES['image']['error'] == 0) {
             font-size: 1.5rem;
             font-weight: 700;
         }
-
         #image {
             max-width: 300px;
         }
-
         #link {
             width: 90%;
             max-width: 400px;
@@ -77,6 +82,7 @@ if(isset($_FILES['image']) && $_FILES['image']['error'] == 0) {
             outline: none;
             transition: border 0.2s, box-shadow 0.2s;
             box-shadow: 0 2px 8px rgba(143,0,255,0.08);
+            text-decoration: none;
         }
         #link:focus {
             border: 2px solid #e100ff;
@@ -140,14 +146,20 @@ if(isset($_FILES['image']) && $_FILES['image']['error'] == 0) {
             <h1>Héberger une image GRATUIT 🤩</h1>
             <?php
                 if(isset($error) && $error == 0) {
-                    echo '<img src="'.$address.'" alt="" id="image"><br /><br />
-                            <input type="text" value="http://localhost/testRapid/'.$address.'" id="link">';
+
+                    echo '<img src="'.$address.'" alt="Image hébergée" id="image"> <br /><br />';
+
+                    echo '<br /><br /><a href="'.$address.'" target="_blank" id="link">Voir l\'image</a> <br /><br />';
+
                 }
                 else if(isset($error) && $error == 1) {
+
                     echo 'Votre image ne peut pas être envoyée. Vérifier son extension et sa taille (maximum à 3 Mo).';
+                
                 }
             ?>
-            <form action="test.php" method="post" enctype="multipart/form-data">
+            
+            <form action="./index.php" method="post" enctype="multipart/form-data">
                 <input type="file" name="image" required><br>
                 <button type="submit">Héberger</button>
             </form>
